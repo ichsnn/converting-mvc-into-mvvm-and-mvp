@@ -1,5 +1,6 @@
 package my.id.ichsnn.mvcmvvmmvp.views
 
 interface MainView {
-    fun getCelsius(): String
+    fun showReaumur(reaumur: String)
+    fun showFahrenheit(fahrenheit: String)
 }

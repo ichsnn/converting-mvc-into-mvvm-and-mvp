@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import my.id.ichsnn.mvcmvvmmvp.controllers.MainController
 import my.id.ichsnn.mvcmvvmmvp.databinding.ActivityMainBinding
-import my.id.ichsnn.mvcmvvmmvp.models.Celsius
+import my.id.ichsnn.mvcmvvmmvp.presenters.MainPresenter
 import my.id.ichsnn.mvcmvvmmvp.views.MainView
 
 class MainActivity : AppCompatActivity(), MainView {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var controller: MainController
-    private lateinit var model: Celsius
+    private lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        controller = MainController(this)
-        model = Celsius.getInstance()
-
+        presenter = MainPresenter(this)
         initView()
-        observeModel()
     }
 
     private fun initView() {
@@ -40,22 +35,17 @@ class MainActivity : AppCompatActivity(), MainView {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    controller.calculateTemperature()
+                    presenter.calculateTemperature(s.toString())
                 }
             })
         }
     }
 
-    private fun observeModel() {
-        model.getReaumur().observe(this) { reaumur ->
-            binding.inputReaumur.setText(reaumur.toString())
-        }
-        model.getFahrenheit().observe(this) { fahrenheit ->
-            binding.inputFahrenheit.setText(fahrenheit.toString())
-        }
+    override fun showReaumur(reaumur: String) {
+        binding.inputReaumur.setText(reaumur)
     }
 
-    override fun getCelsius(): String {
-        return binding.inputCelsius.text.toString()
+    override fun showFahrenheit(fahrenheit: String) {
+        binding.inputFahrenheit.setText(fahrenheit)
     }
 }
