@@ -18,7 +18,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Celcius Converter"
+        app:title="@string/celsius_converter"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
         app:titleTextColor="#FFFFFF" />
 
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/celsius"
-            android:inputType="number|numberSigned" />
+            android:inputType="number|numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,8 +57,9 @@
             android:id="@+id/inputReaumur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="@string/reaumur"
-            android:inputType="number|numberSigned" />
+            android:inputType="number|numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,8 +77,9 @@
             android:id="@+id/inputFahrenheit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="@string/fahrenheit"
-            android:inputType="number|numberSigned" />
+            android:inputType="number|numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
