@@ -4,26 +4,26 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import my.id.ichsnn.mvcmvvmmvp.controllers.MainController
+import androidx.lifecycle.ViewModelProvider
 import my.id.ichsnn.mvcmvvmmvp.databinding.ActivityMainBinding
-import my.id.ichsnn.mvcmvvmmvp.models.Celsius
-import my.id.ichsnn.mvcmvvmmvp.views.MainView
+import my.id.ichsnn.mvcmvvmmvp.viewmodels.MainViewModel
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var controller: MainController
-    private lateinit var model: Celsius
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        controller = MainController(this)
-        model = Celsius.getInstance()
-
+        initViewModel()
         initView()
-        observeModel()
+        observeTemperature()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
     }
 
     private fun initView() {
@@ -40,22 +40,19 @@ class MainActivity : AppCompatActivity(), MainView {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    controller.calculateTemperature()
+                    viewModel.setCelsius(s.toString())
                 }
             })
         }
     }
 
-    private fun observeModel() {
-        model.getReaumur().observe(this) { reaumur ->
-            binding.inputReaumur.setText(reaumur.toString())
-        }
-        model.getFahrenheit().observe(this) { fahrenheit ->
-            binding.inputFahrenheit.setText(fahrenheit.toString())
+    private fun observeTemperature() {
+        viewModel.getCelsius().observe(this) { celsius ->
+            binding.apply {
+                inputReaumur.setText(celsius.toReaumur().toString())
+                inputFahrenheit.setText(celsius.toFahrenheit().toString())
+            }
         }
     }
 
-    override fun getCelsius(): String {
-        return binding.inputCelsius.text.toString()
-    }
 }
