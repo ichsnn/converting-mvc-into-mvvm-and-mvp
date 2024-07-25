@@ -15,16 +15,12 @@ class Celsius {
         fahrenheit = MutableLiveData(0.0)
     }
 
-    fun getCelsius(): Double {
-        return celsius
-    }
-
     fun setCelsius(celsius: Double) {
         this.celsius = celsius
     }
 
     fun getReaumur(): LiveData<Double> {
-        return reaumur;
+        return reaumur
     }
 
     fun getFahrenheit(): LiveData<Double> {
